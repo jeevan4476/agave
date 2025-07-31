@@ -1,5 +1,9 @@
 #[cfg(all(target_os = "linux", target_env = "gnu"))]
 use std::ffi::{CStr, CString};
+use solana_network_metrics::NetworkMetrics;
+
+use crate::bank::NetworkMetricsTracker;
+
 use {
     crate::{
         bank::{Bank, BankFieldsToDeserialize, BankFieldsToSerialize, BankHashStats, BankRc},
@@ -183,6 +187,7 @@ impl From<DeserializableVersionedBank> for BankFieldsToDeserialize {
             versioned_epoch_stakes: HashMap::default(), // populated from ExtraFieldsToDeserialize
             accounts_lt_hash: AccountsLtHash(LT_HASH_CANARY), // populated from ExtraFieldsToDeserialize
             bank_hash_stats: BankHashStats::default(),        // populated from AccountsDbFields
+            network_metrics_tracker:NetworkMetricsTracker::default()
         }
     }
 }

@@ -55,6 +55,7 @@ use {
         stakes::{SerdeStakesToStakeFormat, Stakes, StakesCache},
         status_cache::{SlotDelta, StatusCache},
         transaction_batch::{OwnedOrBorrowed, TransactionBatch},
+<<<<<<< Updated upstream
     },
     accounts_lt_hash::{CacheValue as AccountsLtHashCacheValue, Stats as AccountsLtHashStats},
     agave_feature_set::{self as feature_set, FeatureSet},
@@ -70,10 +71,12 @@ use {
     rayon::ThreadPoolBuilder,
     serde::Serialize,
     solana_account::{
+=======
+    }, accounts_lt_hash::{CacheValue as AccountsLtHashCacheValue, Stats as AccountsLtHashStats}, agave_feature_set::{self as feature_set, FeatureSet}, agave_precompiles::{get_precompile, get_precompiles, is_precompile}, agave_reserved_account_keys::ReservedAccountKeys, ahash::{AHashSet, RandomState}, dashmap::DashMap, log::*, partitioned_epoch_rewards::PartitionedRewardsCalculation, rayon::ThreadPoolBuilder, serde::Serialize, solana_account::{
+>>>>>>> Stashed changes
         create_account_shared_data_with_fields as create_account, from_account, Account,
         AccountSharedData, InheritableAccountFields, ReadableAccount, WritableAccount,
-    },
-    solana_accounts_db::{
+    }, solana_accounts_db::{
         account_locks::validate_account_locks,
         accounts::{AccountAddressFilter, Accounts, PubkeyAccountSlot},
         accounts_db::{AccountStorageEntry, AccountsDb, AccountsDbConfig, DuplicatesLtHash},
@@ -83,6 +86,7 @@ use {
         ancestors::{Ancestors, AncestorsForSerialization},
         blockhash_queue::BlockhashQueue,
         storable_accounts::StorableAccounts,
+<<<<<<< Updated upstream
     },
     solana_builtins::{prototype::BuiltinPrototype, BUILTINS, STATELESS_BUILTINS},
     solana_clock::{
@@ -110,21 +114,18 @@ use {
     solana_packet::PACKET_DATA_SIZE,
     solana_precompile_error::PrecompileError,
     solana_program_runtime::{
+=======
+    }, solana_bpf_loader_program::syscalls::{
+        create_program_runtime_environment_v1, create_program_runtime_environment_v2,
+    }, solana_builtins::{prototype::BuiltinPrototype, BUILTINS, STATELESS_BUILTINS}, solana_clock::{
+        BankId, Epoch, Slot, SlotIndex, UnixTimestamp, INITIAL_RENT_EPOCH, MAX_PROCESSING_AGE,
+        MAX_TRANSACTION_FORWARDING_DELAY,
+    }, solana_compute_budget::compute_budget::ComputeBudget, solana_compute_budget_instruction::instructions_processor::process_compute_budget_instructions, solana_cost_model::cost_tracker::CostTracker, solana_epoch_info::EpochInfo, solana_epoch_schedule::EpochSchedule, solana_feature_gate_interface as feature, solana_fee::FeeFeatures, solana_fee_calculator::FeeRateGovernor, solana_fee_structure::{FeeBudgetLimits, FeeDetails, FeeStructure}, solana_genesis_config::{ClusterType, GenesisConfig}, solana_hard_forks::HardForks, solana_hash::Hash, solana_inflation::Inflation, solana_keypair::Keypair, solana_lattice_hash::lt_hash::LtHash, solana_measure::{meas_dur, measure::Measure, measure_time, measure_us}, solana_message::{inner_instruction::InnerInstructions, AccountKeys, SanitizedMessage}, solana_native_token::LAMPORTS_PER_SOL, solana_network_metrics::NetworkMetrics, solana_packet::PACKET_DATA_SIZE, solana_precompile_error::PrecompileError, solana_program_runtime::{
+>>>>>>> Stashed changes
         invoke_context::BuiltinFunctionWithContext, loaded_programs::ProgramCacheEntry,
-    },
-    solana_pubkey::Pubkey,
-    solana_rent_collector::RentCollector,
-    solana_reward_info::RewardInfo,
-    solana_runtime_transaction::{
+    }, solana_pubkey::Pubkey, solana_rent_collector::RentCollector, solana_reward_info::RewardInfo, solana_runtime_transaction::{
         runtime_transaction::RuntimeTransaction, transaction_with_meta::TransactionWithMeta,
-    },
-    solana_sdk_ids::{bpf_loader_upgradeable, incinerator, native_loader},
-    solana_sha256_hasher::hashv,
-    solana_signature::Signature,
-    solana_slot_hashes::SlotHashes,
-    solana_slot_history::{Check, SlotHistory},
-    solana_stake_interface::state::Delegation,
-    solana_svm::{
+    }, solana_sdk_ids::{bpf_loader_upgradeable, incinerator, native_loader}, solana_sha256_hasher::hashv, solana_signature::Signature, solana_slot_hashes::SlotHashes, solana_slot_history::{Check, SlotHistory}, solana_stake_interface::state::Delegation, solana_svm::{
         account_loader::LoadedTransaction,
         account_overrides::AccountOverrides,
         program_loader::load_program_with_pubkey,
@@ -142,24 +143,12 @@ use {
             ExecutionRecordingConfig, TransactionBatchProcessor, TransactionLogMessages,
             TransactionProcessingConfig, TransactionProcessingEnvironment,
         },
-    },
-    solana_svm_callback::{AccountState, InvokeContextCallback, TransactionProcessingCallback},
-    solana_svm_transaction::svm_message::SVMMessage,
-    solana_system_transaction as system_transaction,
-    solana_sysvar::{self as sysvar, last_restart_slot::LastRestartSlot, Sysvar},
-    solana_sysvar_id::SysvarId,
-    solana_time_utils::years_as_slots,
-    solana_timings::{ExecuteTimingType, ExecuteTimings},
-    solana_transaction::{
+    }, solana_svm_callback::{AccountState, InvokeContextCallback, TransactionProcessingCallback}, solana_svm_transaction::svm_message::SVMMessage, solana_system_transaction as system_transaction, solana_sysvar::{self as sysvar, last_restart_slot::LastRestartSlot, Sysvar}, solana_sysvar_id::SysvarId, solana_time_utils::years_as_slots, solana_timings::{ExecuteTimingType, ExecuteTimings}, solana_transaction::{
         sanitized::{MessageHash, SanitizedTransaction, MAX_TX_ACCOUNT_LOCKS},
         versioned::VersionedTransaction,
         Transaction, TransactionVerificationMode,
-    },
-    solana_transaction_context::{TransactionAccount, TransactionReturnData},
-    solana_transaction_error::{TransactionError, TransactionResult as Result},
-    solana_vote::vote_account::{VoteAccount, VoteAccountsHashMap},
-    std::{
-        collections::{HashMap, HashSet},
+    }, solana_transaction_context::{TransactionAccount, TransactionReturnData}, solana_transaction_error::{TransactionError, TransactionResult as Result}, solana_vote::vote_account::{VoteAccount, VoteAccountsHashMap}, std::{
+        collections::{HashMap, HashSet, VecDeque},
         fmt,
         ops::{AddAssign, RangeFull},
         path::PathBuf,
@@ -173,7 +162,7 @@ use {
         },
         thread::Builder,
         time::{Duration, Instant},
-    },
+    }
 };
 #[cfg(feature = "dev-context-only-utils")]
 use {
@@ -272,6 +261,61 @@ impl From<FeeDetails> for CollectorFeeDetails {
         }
     }
 }
+
+const METRICS_WINDOW_SIZE : usize = 100;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NetworkMetricsTracker{
+    //tuple of (slot,non_vote_tx_count,compute_unit-consumed)
+    slot_status : VecDeque<u64,u64,u64>
+}
+
+impl NetworkMetricsTracker{
+    pub fn new()->Self{
+        Self { slot_status: VecDeque::with_capacity(METRICS_WINDOW_SIZE), }
+    }
+     pub fn record_slot_stats(&mut self, slot: u64, non_vote_tx_count: u64, cu_consumed: u64) {
+        if self.slot_stats.len() == METRICS_WINDOW_SIZE {
+            self.slot_stats.pop_front();
+        }
+        self.slot_stats.push_back((slot, non_vote_tx_count, cu_consumed));
+    }
+
+    /// Calculates the final metrics for the sysvar.
+    /// `self` here correctly refers to `&NetworkMetricsTracker`.
+    pub fn calculate_metrics(&self, bank: &Bank) -> solana_network_metrics::NetworkMetrics {
+        if self.slot_stats.is_empty() {
+            return solana_network_metrics::NetworkMetrics::default();
+        }
+
+        // Now self.slot_stats.iter() will work correctly.
+        let total_txs: u64 = self.slot_stats.iter().map(|(_slot, tx_count, _cu)| *tx_count).sum();
+        let total_cu: u64 = self.slot_stats.iter().map(|(_slot, _tx_count, cu)| *cu).sum();
+
+        let num_slots = self.slot_stats.len() as u64;
+        let target_s_per_slot = bank.ns_per_slot as f64 / 1_000_000_000.0;
+
+        let tps = (total_txs as f64 / (num_slots as f64 * target_s_per_slot)) as u64;
+        let avg_block_cu_consumption = if num_slots > 0 { total_cu / num_slots } else { 0 };
+
+        // Get the active validator count for the current epoch.
+        let active_validator_count = bank.epoch_stakes(bank.epoch()).map_or(0, |stakes| stakes.stakes().staked_nodes().len() as u16);
+
+        solana_network_metrics::NetworkMetrics {
+            tps,
+            avg_block_cu_consumption,
+            skipped_slot_percentage: 0, // This is a placeholder; calculating it requires more complex state.
+            active_validator_count,
+        }
+    }
+}
+
+impl Default for NetworkMetricsTracker{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 
 #[derive(Debug)]
 pub struct BankRc {
@@ -433,6 +477,7 @@ pub struct BankFieldsToDeserialize {
     pub(crate) accounts_data_len: u64,
     pub(crate) accounts_lt_hash: AccountsLtHash,
     pub(crate) bank_hash_stats: BankHashStats,
+    pub(crate) network_metrics_tracker : Option<NetworkMetricsTracker>
 }
 
 /// Bank's common fields shared by all supported snapshot versions for serialization.
@@ -475,6 +520,7 @@ pub struct BankFieldsToSerialize {
     pub accounts_data_len: u64,
     pub versioned_epoch_stakes: HashMap<u64, VersionedEpochStakes>,
     pub accounts_lt_hash: AccountsLtHash,
+    pub network_metrics_tracker: NetworkMetricsTracker,
 }
 
 // Can't derive PartialEq because RwLock doesn't implement PartialEq
@@ -525,6 +571,7 @@ impl PartialEq for Bank {
             #[cfg(feature = "dev-context-only-utils")]
             hash_overrides,
             accounts_lt_hash,
+            network_metrics_tracker,
             // TODO: Confirm if all these fields are intentionally ignored!
             rewards: _,
             cluster_type: _,
@@ -630,6 +677,7 @@ impl BankFieldsToSerialize {
             accounts_data_len: u64::default(),
             versioned_epoch_stakes: HashMap::default(),
             accounts_lt_hash: AccountsLtHash(LtHash([0x7E57; LtHash::NUM_ELEMENTS])),
+            network_metrics_tracker:NetworkMetricsTracker::default()
         }
     }
 }
@@ -903,6 +951,8 @@ pub struct Bank {
     /// This is used to avoid recalculating the same epoch rewards at epoch boundary.
     /// The hashmap is keyed by parent_hash.
     epoch_rewards_calculation_cache: Arc<Mutex<HashMap<Hash, Arc<PartitionedRewardsCalculation>>>>,
+
+    pub network_metrics_tracker : RwLock<NetworkMetricsTracker>
 }
 
 #[derive(Debug)]
@@ -1068,6 +1118,7 @@ impl Bank {
             inflation: Arc::<RwLock<Inflation>>::default(),
             stakes_cache: StakesCache::default(),
             epoch_stakes: HashMap::<Epoch, VersionedEpochStakes>::default(),
+            network_metrics_tracker: RwLock::new(NetworkMetricsTracker::default()),
             is_delta: AtomicBool::default(),
             rewards: RwLock::<Vec<(Pubkey, RewardInfo)>>::default(),
             cluster_type: Option::<ClusterType>::default(),
@@ -1353,7 +1404,8 @@ impl Bank {
             block_id: RwLock::new(None),
             bank_hash_stats: AtomicBankHashStats::default(),
             epoch_rewards_calculation_cache: parent.epoch_rewards_calculation_cache.clone(),
-        };
+            network_metrics_tracker: RwLock::new(parent.network_metrics_tracker.read().unwrap().clone()), 
+           };
 
         let (_, ancestors_time_us) = measure_us!({
             let mut ancestors = Vec::with_capacity(1 + new.parents().len());
@@ -1389,7 +1441,8 @@ impl Bank {
             new.update_slot_hashes();
             new.update_stake_history(Some(parent.epoch()));
             new.update_clock(Some(parent.epoch()));
-            new.update_last_restart_slot()
+            new.update_last_restart_slot();
+            new.update_network_metrics_sysvar();
         });
 
         let (_, fill_sysvar_cache_time_us) = measure_us!(new
@@ -1803,6 +1856,7 @@ impl Bank {
             block_id: RwLock::new(None),
             bank_hash_stats: AtomicBankHashStats::new(&fields.bank_hash_stats),
             epoch_rewards_calculation_cache: Arc::new(Mutex::new(HashMap::default())),
+            network_metrics_tracker: fields.network_metrics_tracker.unwrap_or_default()
         };
 
         bank.transaction_processor =
@@ -1910,6 +1964,7 @@ impl Bank {
             accounts_data_len: self.load_accounts_data_size(),
             versioned_epoch_stakes: self.epoch_stakes.clone(),
             accounts_lt_hash: self.accounts_lt_hash.lock().unwrap().clone(),
+            network_metrics_tracker:self.network_metrics_tracker.clone()
         }
     }
 
@@ -3537,6 +3592,19 @@ impl Bank {
             "commit_transactions() working on a bank that is already frozen or is undergoing freezing!"
         );
 
+        //calculate total compute units from successfull txs
+        let total_compute_units_comsumed : u64 = processing_results.iter().filter_map(|res| res.processed_transaction()).filter_map(| tx | tx.execution_details()).map(|details| details.executed_units).sum();
+
+        //Recording the stats in the tracker
+
+        self.network_metrics_tracker
+        .write()
+        .unwrap()
+        .record_slot_stats(
+            self.slot(),
+            processed_counts.processed_non_vote_transactions_count,
+            total_compute_units_consumed,
+        );
         let ProcessedTransactionCounts {
             processed_transactions_count,
             processed_non_vote_transactions_count,
@@ -5590,6 +5658,13 @@ impl Bank {
     /// Return total transaction fee collected
     pub fn get_collector_fee_details(&self) -> CollectorFeeDetails {
         self.collector_fee_details.read().unwrap().clone()
+    }
+
+    pub fn update_network_metrics_sysvar(&self){
+        let metrics = self.network_metrics_tracker.read().unwrap().calculate_metrics(self);
+        self.update_sysvar_account(&solana_sdk_ids::sysvar::network_metrics::ID, |account| {
+            solana_account::create_account_shared_data_with_fields(&metrics, self.inherit_specially_retained_account_fields(account))
+        });
     }
 }
 

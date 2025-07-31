@@ -1,4 +1,4 @@
-use {super::*, solana_sbpf::vm::ContextObject};
+use {super::*, crate::translate_mut, solana_clock::Clock, solana_sbpf::{insn_builder::SwapBytes, vm::ContextObject}};
 
 declare_builtin_function!(
     /// Log a user's info message
@@ -51,6 +51,57 @@ declare_builtin_function!(
             &invoke_context.get_log_collector(),
             &format!("{arg1:#x}, {arg2:#x}, {arg3:#x}, {arg4:#x}, {arg5:#x}"),
         );
+        Ok(0)
+    }
+);
+
+declare_builtin_function!(
+    SyscallLogPubkeyAsUnit8,
+    fn rust(
+        invoke_context: &mut InvokeContext,
+        pubkey_addr: u64,
+        _arg2: u64,
+        _arg3: u64,
+        _arg4: u64,
+        _arg5: u64,
+        memory_mapping: &mut MemoryMapping,
+    ) -> Result<u64, Error> {
+        let cost = invoke_context.get_execution_cost().log_pubkey_units;
+        consume_compute_meter(invoke_context, cost)?;
+
+        let pubkey = translate_type::<Pubkey>(
+            memory_mapping,
+            pubkey_addr,
+            invoke_context.get_check_aligned(),
+        )?;
+        let bytes = pubkey.to_bytes();
+        let byte_str = bytes.iter().map(|b| b.to_string()).collect::<Vec<_>>().join(", ");
+        let log_msg = format!("[{}]", byte_str);
+        stable_log::program_log(&invoke_context.get_log_collector(), &log_msg);
+        Ok(0)
+    }
+);
+
+declare_builtin_function!(
+    SyscallSwap,
+    fn rust(
+        invoke_context: &mut InvokeContext,
+        pubkey1_addr: u64,
+        pubkey2_addr: u64,
+        _arg3: u64,
+        _arg4: u64,
+        _arg5: u64,
+        memory_mapping: &mut MemoryMapping,
+    ) -> Result<u64, Error> {
+        const SWAP_COMPUTE_UNITS: u64= 100;
+        invoke_context.consume(SWAP_COMPUTE_UNITS);
+
+        let pubkey1 : &mut [u8] = translate_slice_mut::<u8>(memory_mapping, pubkey1_addr, 32, invoke_context.get_check_aligned())?;
+        let pubkey2 : &mut [u8] = translate_slice_mut::<u8>(memory_mapping, pubkey2_addr, 32, invoke_context.get_check_aligned())?;
+
+        pubkey1.swap_with_slice(pubkey2);
+
+        ic_msg!(invoke_context, "Success");
         Ok(0)
     }
 );

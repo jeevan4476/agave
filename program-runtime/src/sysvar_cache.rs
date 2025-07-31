@@ -9,6 +9,7 @@ use {
     solana_instruction::error::InstructionError,
     solana_last_restart_slot::LastRestartSlot,
     solana_pubkey::Pubkey,
+    solana_network_metrics::NetworkMetrics,
     solana_rent::Rent,
     solana_sdk_ids::sysvar,
     solana_slot_hashes::SlotHashes,
@@ -36,7 +37,7 @@ pub struct SysvarCache {
     slot_hashes: Option<Vec<u8>>,
     stake_history: Option<Vec<u8>>,
     last_restart_slot: Option<Vec<u8>>,
-
+    network_metrics:Option<Vec<u8>>,
     // object representations of large sysvars for convenience
     // these are used by the stake and vote builtin programs
     // these should be removed once those programs are ported to bpf
@@ -71,6 +72,9 @@ impl SysvarCache {
             }
             sysvar::epoch_schedule::ID => {
                 self.epoch_schedule = Some(data);
+            }
+            sysvar::network_metrics::ID=>{
+                self.network_metrics = Some(data)
             }
             FEES_ID => {
                 let fees: Fees =
@@ -120,7 +124,9 @@ impl SysvarCache {
             &self.stake_history
         } else if LastRestartSlot::check_id(sysvar_id) {
             &self.last_restart_slot
-        } else {
+        } else if NetworkMetrics::check_id(sysvar_id) {
+            &self.network_metrics
+        }else {
             &None
         }
     }
@@ -144,6 +150,9 @@ impl SysvarCache {
         self.get_sysvar_obj(&Clock::id())
     }
 
+    pub fn get_network_metrics(&self) -> Result<Arc<NetworkMetrics>,InstructionError>{
+        self.get_sysvar_obj(&NetworkMetrics::id())
+    }
     pub fn get_epoch_schedule(&self) -> Result<Arc<EpochSchedule>, InstructionError> {
         self.get_sysvar_obj(&EpochSchedule::id())
     }
@@ -198,6 +207,14 @@ impl SysvarCache {
             get_account_data(&Clock::id(), &mut |data: &[u8]| {
                 if bincode::deserialize::<Clock>(data).is_ok() {
                     self.clock = Some(data.to_vec());
+                }
+            });
+        }
+
+        if self.network_metrics.is_none() {
+            get_account_data(&NetworkMetrics::id(), &mut |data: &[u8]| {
+                if bincode::deserialize::<NetworkMetrics>(data).is_ok() {
+                    self.network_metrics = Some(data.to_vec());
                 }
             });
         }
@@ -307,6 +324,19 @@ pub mod get_sysvar_with_account_check {
             instruction_account_index,
         )?;
         invoke_context.get_sysvar_cache().get_clock()
+    }
+
+    pub fn network_metrics(
+        invoke_context: &InvokeContext,
+        instruction_context: &InstructionContext,
+        instruction_account_index: IndexOfAccount,
+    ) -> Result<Arc<NetworkMetrics>, InstructionError> {
+        check_sysvar_account::<NetworkMetrics>(
+            invoke_context.transaction_context,
+            instruction_context,
+            instruction_account_index,
+        )?;
+        invoke_context.get_sysvar_cache().get_network_metrics()
     }
 
     pub fn rent(

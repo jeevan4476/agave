@@ -401,6 +401,7 @@ solana-cli-output = { path = "cli-output", version = "=3.0.0" }
 solana-client = { path = "client", version = "=3.0.0" }
 solana-client-traits = "2.2.1"
 solana-clock = "2.2.2"
+solana-network-metrics = "2.2.1"
 solana-cluster-type = "2.2.1"
 solana-commitment-config = "2.2.1"
 solana-compute-budget = { path = "compute-budget", version = "=3.0.0" }
@@ -414,7 +415,7 @@ solana-core = { path = "core", version = "=3.0.0" }
 solana-cost-model = { path = "cost-model", version = "=3.0.0" }
 solana-cpi = "2.2.1"
 solana-curve25519 = { path = "curves/curve25519", version = "=3.0.0" }
-solana-define-syscall = "2.3.0"
+solana-define-syscall = {path="/home/jvan/svm/solana-sdk/define-syscall"}
 solana-derivation-path = "2.2.1"
 solana-download-utils = { path = "download-utils", version = "=3.0.0" }
 solana-ed25519-program = "2.2.3"
@@ -532,8 +533,8 @@ solana-svm-transaction = { path = "svm-transaction", version = "=3.0.0" }
 solana-system-interface = "1.0"
 solana-system-program = { path = "programs/system", version = "=3.0.0" }
 solana-system-transaction = "2.2.1"
-solana-sysvar = "2.2.2"
-solana-sysvar-id = "2.2.1"
+solana-sysvar = {path = "/home/jvan/svm/solana-sdk/sysvar", version = "2.2.2"}
+solana-sysvar-id = {path = "/home/jvan/svm/solana-sdk/sysvar-id", version = "2.2.1"}
 solana-test-validator = { path = "test-validator", version = "=3.0.0" }
 solana-thin-client = { path = "thin-client", version = "=3.0.0" }
 solana-time-utils = "2.2.1"

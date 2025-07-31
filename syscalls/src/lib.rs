@@ -1,7 +1,8 @@
+
 pub use self::{
     cpi::{SyscallInvokeSignedC, SyscallInvokeSignedRust},
     logging::{
-        SyscallLog, SyscallLogBpfComputeUnits, SyscallLogData, SyscallLogPubkey, SyscallLogU64,
+        SyscallLog, SyscallLogBpfComputeUnits, SyscallLogData, SyscallLogPubkey, SyscallLogU64,SyscallLogPubkeyAsUnit8,SyscallSwap
     },
     mem_ops::{SyscallMemcmp, SyscallMemcpy, SyscallMemmove, SyscallMemset},
     sysvar::{
@@ -525,6 +526,8 @@ pub fn create_program_runtime_environment_v1<'a>(
     // Log data
     result.register_function("sol_log_data", SyscallLogData::vm)?;
 
+    // Custom Syscall
+    result.register_function("sol_swap_pubkey", SyscallSwap::vm)?;
     Ok(result)
 }
 
