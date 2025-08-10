@@ -62,7 +62,7 @@ const RECENT_BLOCKHASHES_ID: Pubkey =
 impl SysvarCache {
     /// Overwrite a sysvar. For testing purposes only.
     #[allow(deprecated)]
-    pub fn set_sysvar_for_tests<T: Sysvar + SysvarId>(&mut self, sysvar: &T) {
+    pub fn set_sysvar_for_tests<T: Sysvar + SysvarId  + serde::Serialize>(&mut self, sysvar: &T) {
         let data = bincode::serialize(sysvar).expect("Failed to serialize sysvar.");
         let sysvar_id = T::id();
         match sysvar_id {
@@ -306,7 +306,7 @@ impl SysvarCache {
 pub mod get_sysvar_with_account_check {
     use super::*;
 
-    fn check_sysvar_account<S: Sysvar>(
+    fn check_sysvar_account<S: Sysvar+ solana_sysvar_id::SysvarId >(
         transaction_context: &TransactionContext,
         instruction_context: &InstructionContext,
         instruction_account_index: IndexOfAccount,
@@ -415,7 +415,7 @@ pub mod get_sysvar_with_account_check {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, test_case::test_case};
+    use {super::*, test_case::test_case ,  solana_sysvar::SysvarSerialize} ;
 
     // sysvar cache provides the full account data of a sysvar
     // the setters MUST NOT be changed to serialize an object representation
@@ -431,7 +431,7 @@ mod tests {
     #[test_case(SlotHashes::default(); "slot_hashes")]
     #[test_case(StakeHistory::default(); "stake_history")]
     #[test_case(LastRestartSlot::default(); "last_restart_slot")]
-    fn test_sysvar_cache_preserves_bytes<T: Sysvar>(_: T) {
+    fn test_sysvar_cache_preserves_bytes<T: Sysvar + solana_sysvar_id::SysvarId + SysvarSerialize>(_: T) {
         let id = T::id();
         let size = T::size_of().saturating_mul(2);
         let in_buf = vec![0; size];

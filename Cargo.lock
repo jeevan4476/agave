@@ -1252,7 +1252,7 @@ dependencies = [
  "bitflags 2.9.1",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.12.1",
  "lazy_static",
  "lazycell",
  "proc-macro2",
@@ -1369,12 +1369,12 @@ dependencies = [
 
 [[package]]
 name = "borsh"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4114279215a005bc675e386011e594e1d9b800918cea18fcadadcce864a2046b"
+checksum = "115e54d64eb62cdebad391c19efc9dce4981c690c85a33a12199d99bb9546fee"
 dependencies = [
  "borsh-derive 0.10.3",
- "hashbrown 0.12.3",
+ "hashbrown 0.13.2",
 ]
 
 [[package]]
@@ -4198,7 +4198,7 @@ version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2ba15de5aeb137f0f65aa3bf82187647f1285abfe5b20c80c2c37f7007ad519a"
 dependencies = [
- "borsh 0.10.3",
+ "borsh 0.10.4",
  "serde",
 ]
 
@@ -7284,7 +7284,7 @@ version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "718333bcd0a1a7aed6655aa66bef8d7fb047944922b2d3a18f49cbc13e73d004"
 dependencies = [
- "borsh 0.10.3",
+ "borsh 0.10.4",
  "borsh 1.5.7",
 ]
 
@@ -7886,7 +7886,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ef9867b9ffae6e48a97ce6349e7796fcb34084298e909a8fa1fe427f41b52fd4"
 dependencies = [
  "bincode",
- "borsh 0.10.3",
+ "borsh 0.10.4",
  "kaigan",
  "serde",
  "solana-config-interface",
@@ -8395,7 +8395,7 @@ version = "0.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f1056507c534839b5cd1b1010ffedb9e8c92313269786fb5066ff53b30326dc3"
 dependencies = [
- "borsh 0.10.3",
+ "borsh 0.10.4",
  "num-derive",
  "num-traits",
  "solana-program",

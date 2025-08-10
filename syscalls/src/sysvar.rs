@@ -55,26 +55,6 @@ declare_builtin_function!(
     }
 );
 
-declare_builtin_function!(
-    SyscallGetNetworkMetricsSysvar,
-    fn rust(
-        invoke_context: &mut InvokeContext,
-        var_addr: u64,
-        _arg2: u64,
-        _arg3: u64,
-        _arg4: u64,
-        _arg5: u64,
-        memory_mapping: &mut MemoryMapping,
-    ) -> Result<u64, Error> {
-        get_sysvar(
-            invoke_context.get_sysvar_cache().get_network_metrics(),
-            var_addr,
-            invoke_context.get_check_aligned(),
-            memory_mapping,
-            invoke_context,
-        )
-    }
-);
 
 declare_builtin_function!(
     /// Get a EpochSchedule sysvar

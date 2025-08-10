@@ -1,4 +1,4 @@
-use {super::*, crate::translate_mut, solana_clock::Clock, solana_sbpf::{insn_builder::SwapBytes, vm::ContextObject}};
+use {super::*, solana_sbpf::{ vm::ContextObject}};
 
 declare_builtin_function!(
     /// Log a user's info message

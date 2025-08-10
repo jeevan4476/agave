@@ -182,7 +182,7 @@ impl BanksClient {
     }
 
     /// Return the cluster Sysvar
-    pub async fn get_sysvar<T: Sysvar>(&self) -> Result<T, BanksClientError> {
+    pub async fn get_sysvar<T: Sysvar+ solana_sysvar::SysvarSerialize >(&self) -> Result<T, BanksClientError> {
         let sysvar = self
             .get_account(T::id())
             .await?

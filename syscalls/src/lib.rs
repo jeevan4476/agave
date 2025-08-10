@@ -3557,6 +3557,7 @@ mod tests {
     #[test]
     #[allow(deprecated)]
     fn test_syscall_get_sysvar() {
+        use solana_sysvar::SysvarSerialize;
         let config = Config::default();
 
         let mut src_clock = create_filled_type::<Clock>(false);
@@ -3975,6 +3976,7 @@ mod tests {
     #[test_case(false; "partial")]
     #[test_case(true; "full")]
     fn test_syscall_get_stake_history(filled: bool) {
+        use solana_sysvar::SysvarSerialize;
         let config = Config::default();
 
         let mut src_history = StakeHistory::default();
@@ -4042,6 +4044,7 @@ mod tests {
     #[test_case(false; "partial")]
     #[test_case(true; "full")]
     fn test_syscall_get_slot_hashes(filled: bool) {
+        use solana_sysvar::SysvarSerialize;
         let config = Config::default();
 
         let mut src_hashes = SlotHashes::default();
@@ -4101,6 +4104,7 @@ mod tests {
 
     #[test]
     fn test_syscall_get_sysvar_errors() {
+        use solana_sysvar::SysvarSerialize;
         let config = Config::default();
 
         let mut src_clock = create_filled_type::<Clock>(false);
