@@ -62,6 +62,7 @@ solana-svm-feature-set = { workspace = true }
 solana-svm-transaction = { workspace = true }
 solana-system-interface = { workspace = true }
 solana-sysvar = { workspace = true }
+solana-slot-summary = {workspace = true}
 solana-sysvar-id = { workspace = true }
 solana-timings = { workspace = true }
 solana-transaction-context = { workspace = true }

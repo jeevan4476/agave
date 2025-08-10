@@ -55,7 +55,6 @@ use {
         stakes::{SerdeStakesToStakeFormat, Stakes, StakesCache},
         status_cache::{SlotDelta, StatusCache},
         transaction_batch::{OwnedOrBorrowed, TransactionBatch},
-<<<<<<< Updated upstream
     },
     accounts_lt_hash::{CacheValue as AccountsLtHashCacheValue, Stats as AccountsLtHashStats},
     agave_feature_set::{self as feature_set, FeatureSet},
@@ -71,12 +70,10 @@ use {
     rayon::ThreadPoolBuilder,
     serde::Serialize,
     solana_account::{
-=======
-    }, accounts_lt_hash::{CacheValue as AccountsLtHashCacheValue, Stats as AccountsLtHashStats}, agave_feature_set::{self as feature_set, FeatureSet}, agave_precompiles::{get_precompile, get_precompiles, is_precompile}, agave_reserved_account_keys::ReservedAccountKeys, ahash::{AHashSet, RandomState}, dashmap::DashMap, log::*, partitioned_epoch_rewards::PartitionedRewardsCalculation, rayon::ThreadPoolBuilder, serde::Serialize, solana_account::{
->>>>>>> Stashed changes
         create_account_shared_data_with_fields as create_account, from_account, Account,
         AccountSharedData, InheritableAccountFields, ReadableAccount, WritableAccount,
-    }, solana_accounts_db::{
+    },
+    solana_accounts_db::{
         account_locks::validate_account_locks,
         accounts::{AccountAddressFilter, Accounts, PubkeyAccountSlot},
         accounts_db::{AccountStorageEntry, AccountsDb, AccountsDbConfig, DuplicatesLtHash},
@@ -86,7 +83,6 @@ use {
         ancestors::{Ancestors, AncestorsForSerialization},
         blockhash_queue::BlockhashQueue,
         storable_accounts::StorableAccounts,
-<<<<<<< Updated upstream
     },
     solana_builtins::{prototype::BuiltinPrototype, BUILTINS, STATELESS_BUILTINS},
     solana_clock::{
@@ -114,18 +110,21 @@ use {
     solana_packet::PACKET_DATA_SIZE,
     solana_precompile_error::PrecompileError,
     solana_program_runtime::{
-=======
-    }, solana_bpf_loader_program::syscalls::{
-        create_program_runtime_environment_v1, create_program_runtime_environment_v2,
-    }, solana_builtins::{prototype::BuiltinPrototype, BUILTINS, STATELESS_BUILTINS}, solana_clock::{
-        BankId, Epoch, Slot, SlotIndex, UnixTimestamp, INITIAL_RENT_EPOCH, MAX_PROCESSING_AGE,
-        MAX_TRANSACTION_FORWARDING_DELAY,
-    }, solana_compute_budget::compute_budget::ComputeBudget, solana_compute_budget_instruction::instructions_processor::process_compute_budget_instructions, solana_cost_model::cost_tracker::CostTracker, solana_epoch_info::EpochInfo, solana_epoch_schedule::EpochSchedule, solana_feature_gate_interface as feature, solana_fee::FeeFeatures, solana_fee_calculator::FeeRateGovernor, solana_fee_structure::{FeeBudgetLimits, FeeDetails, FeeStructure}, solana_genesis_config::{ClusterType, GenesisConfig}, solana_hard_forks::HardForks, solana_hash::Hash, solana_inflation::Inflation, solana_keypair::Keypair, solana_lattice_hash::lt_hash::LtHash, solana_measure::{meas_dur, measure::Measure, measure_time, measure_us}, solana_message::{inner_instruction::InnerInstructions, AccountKeys, SanitizedMessage}, solana_native_token::LAMPORTS_PER_SOL, solana_network_metrics::NetworkMetrics, solana_packet::PACKET_DATA_SIZE, solana_precompile_error::PrecompileError, solana_program_runtime::{
->>>>>>> Stashed changes
         invoke_context::BuiltinFunctionWithContext, loaded_programs::ProgramCacheEntry,
-    }, solana_pubkey::Pubkey, solana_rent_collector::RentCollector, solana_reward_info::RewardInfo, solana_runtime_transaction::{
+    },
+    solana_pubkey::Pubkey,
+    solana_rent_collector::RentCollector,
+    solana_reward_info::RewardInfo,
+    solana_runtime_transaction::{
         runtime_transaction::RuntimeTransaction, transaction_with_meta::TransactionWithMeta,
-    }, solana_sdk_ids::{bpf_loader_upgradeable, incinerator, native_loader}, solana_sha256_hasher::hashv, solana_signature::Signature, solana_slot_hashes::SlotHashes, solana_slot_history::{Check, SlotHistory}, solana_stake_interface::state::Delegation, solana_svm::{
+    },
+    solana_sdk_ids::{bpf_loader_upgradeable, incinerator, native_loader},
+    solana_sha256_hasher::hashv,
+    solana_signature::Signature,
+    solana_slot_hashes::SlotHashes,
+    solana_slot_history::{Check, SlotHistory},
+    solana_stake_interface::state::Delegation,
+    solana_svm::{
         account_loader::LoadedTransaction,
         account_overrides::AccountOverrides,
         program_loader::load_program_with_pubkey,
@@ -143,11 +142,24 @@ use {
             ExecutionRecordingConfig, TransactionBatchProcessor, TransactionLogMessages,
             TransactionProcessingConfig, TransactionProcessingEnvironment,
         },
-    }, solana_svm_callback::{AccountState, InvokeContextCallback, TransactionProcessingCallback}, solana_svm_transaction::svm_message::SVMMessage, solana_system_transaction as system_transaction, solana_sysvar::{self as sysvar, last_restart_slot::LastRestartSlot, Sysvar}, solana_sysvar_id::SysvarId, solana_time_utils::years_as_slots, solana_timings::{ExecuteTimingType, ExecuteTimings}, solana_transaction::{
+    },
+    solana_svm_callback::{AccountState, InvokeContextCallback, TransactionProcessingCallback},
+    solana_svm_transaction::svm_message::SVMMessage,
+    solana_system_transaction as system_transaction,
+    solana_sysvar::{self as sysvar, last_restart_slot::LastRestartSlot, Sysvar},
+    solana_sysvar_id::SysvarId,
+    solana_time_utils::years_as_slots,
+    solana_timings::{ExecuteTimingType, ExecuteTimings},
+    solana_transaction::{
         sanitized::{MessageHash, SanitizedTransaction, MAX_TX_ACCOUNT_LOCKS},
         versioned::VersionedTransaction,
         Transaction, TransactionVerificationMode,
-    }, solana_transaction_context::{TransactionAccount, TransactionReturnData}, solana_transaction_error::{TransactionError, TransactionResult as Result}, solana_vote::vote_account::{VoteAccount, VoteAccountsHashMap}, std::{
+    },
+    solana_slot_summary::SlotSummary,
+    solana_transaction_context::{TransactionAccount, TransactionReturnData},
+    solana_transaction_error::{TransactionError, TransactionResult as Result},
+    solana_vote::vote_account::{VoteAccount, VoteAccountsHashMap},
+    std::{
         collections::{HashMap, HashSet, VecDeque},
         fmt,
         ops::{AddAssign, RangeFull},
@@ -162,8 +174,9 @@ use {
         },
         thread::Builder,
         time::{Duration, Instant},
-    }
+    },
 };
+
 #[cfg(feature = "dev-context-only-utils")]
 use {
     dashmap::DashSet,
@@ -1216,6 +1229,7 @@ impl Bank {
         bank.update_clock(None);
         bank.update_rent();
         bank.update_epoch_schedule();
+        bank.update_slot_summary();
         bank.update_recent_blockhashes();
         bank.update_last_restart_slot();
         bank.transaction_processor
@@ -1441,6 +1455,7 @@ impl Bank {
             new.update_slot_hashes();
             new.update_stake_history(Some(parent.epoch()));
             new.update_clock(Some(parent.epoch()));
+            new.update_slot_summary();
             new.update_last_restart_slot();
             new.update_network_metrics_sysvar();
         });
@@ -2221,6 +2236,47 @@ impl Bank {
         from_account(&self.get_account(&sysvar::slot_history::id()).unwrap()).unwrap()
     }
 
+    fn update_slot_summary(&self){
+        let lookback_slots  =32;
+
+        let mut total_txs = 0u64;
+        let mut total_success = 0u64;
+        let mut slots_counted = 0u64;
+
+        let mut current_bank = Some(self.clone());
+        let mut min_slot = self.slot();
+
+        while let Some(bank) = current_bank{
+            if slots_counted >= lookback_slots{
+                break;
+            }
+            total_txs += bank.transaction_count();
+            total_success += bank.transaction_entries_count();
+
+            min_slot = bank.slot();
+            slots_counted+=1;
+            current_bank = bank.parent().clone();
+
+        }
+        let avg_txs = if slots_counted> 0 {total_txs / slots_counted} else {0};
+
+         let avg_success_rate = if total_txs > 0 {
+            total_success as f32 / total_txs as f32
+        } else {
+            0.0
+        };
+
+        let summary = SlotSummary {
+            start_slot: min_slot,
+            end_slot: self.slot(),
+            avg_tx_count: avg_txs,
+            avg_success_rate,
+        };
+
+        self.update_sysvar_account(&sysvar::slot_summary::id(), |account|{
+            create_account(&summary, self.inherit_specially_retained_account_fields(account))
+        });
+    }
     fn update_epoch_stakes(&mut self, leader_schedule_epoch: Epoch) {
         // update epoch_stakes cache
         //  if my parent didn't populate for this staker's epoch, we've

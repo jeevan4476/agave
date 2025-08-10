@@ -14,7 +14,7 @@ use {
     solana_keypair::Keypair,
     solana_message::Message,
     solana_metrics::datapoint_info,
-    solana_native_token::lamports_to_sol,
+    solana_native_token::LAMPORTS_PER_SOL,
     solana_packet::PACKET_DATA_SIZE,
     solana_pubkey::Pubkey,
     solana_signer::Signer,
@@ -126,8 +126,8 @@ impl Faucet {
                 warn!(
                     "per_time_cap {} SOL < per_request_cap {} SOL; \
                     maximum single requests will fail",
-                    lamports_to_sol(per_time_cap),
-                    lamports_to_sol(per_request_cap),
+                    per_time_cap as f64 / LAMPORTS_PER_SOL as f64,
+                    per_request_cap as f64 / LAMPORTS_PER_SOL as f64,
                 );
             }
         }
@@ -152,10 +152,10 @@ impl Faucet {
         if let Some(cap) = self.per_time_cap {
             if new_total > cap {
                 return Err(FaucetError::PerTimeCapExceeded(
-                    lamports_to_sol(request_amount),
+                    request_amount as f64 / LAMPORTS_PER_SOL as f64 ,
                     to.to_string(),
-                    lamports_to_sol(new_total),
-                    lamports_to_sol(cap),
+                    new_total  as f64 / LAMPORTS_PER_SOL as f64,
+                    cap as f64 / LAMPORTS_PER_SOL as f64,
                 ));
             }
         }
@@ -186,7 +186,7 @@ impl Faucet {
                 let mint_pubkey = self.faucet_keypair.pubkey();
                 info!(
                     "Requesting airdrop of {} SOL to {:?}",
-                    lamports_to_sol(lamports),
+                    lamports  as f64 / LAMPORTS_PER_SOL as f64,
                     to
                 );
 
@@ -195,8 +195,8 @@ impl Faucet {
                         let memo = format!(
                             "{}",
                             FaucetError::PerRequestCapExceeded(
-                                lamports_to_sol(lamports),
-                                lamports_to_sol(cap),
+                                lamports  as f64 / LAMPORTS_PER_SOL as f64,
+                                cap  as f64 / LAMPORTS_PER_SOL as f64,
                             )
                         );
                         let memo_instruction = Instruction {

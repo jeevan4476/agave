@@ -4,13 +4,15 @@ use {
     crate::invoke_context::InvokeContext,
     serde::de::DeserializeOwned,
     solana_clock::Clock,
+    
     solana_epoch_rewards::EpochRewards,
     solana_epoch_schedule::EpochSchedule,
     solana_instruction::error::InstructionError,
     solana_last_restart_slot::LastRestartSlot,
     solana_pubkey::Pubkey,
-    solana_network_metrics::NetworkMetrics,
     solana_rent::Rent,
+    
+    solana_slot_summary::SlotSummary,
     solana_sdk_ids::sysvar,
     solana_slot_hashes::SlotHashes,
     solana_sysvar::{stake_history::StakeHistory, Sysvar},
@@ -37,7 +39,7 @@ pub struct SysvarCache {
     slot_hashes: Option<Vec<u8>>,
     stake_history: Option<Vec<u8>>,
     last_restart_slot: Option<Vec<u8>>,
-    network_metrics:Option<Vec<u8>>,
+    slot_summary:Option<Vec<u8>>,
     // object representations of large sysvars for convenience
     // these are used by the stake and vote builtin programs
     // these should be removed once those programs are ported to bpf
@@ -73,9 +75,6 @@ impl SysvarCache {
             sysvar::epoch_schedule::ID => {
                 self.epoch_schedule = Some(data);
             }
-            sysvar::network_metrics::ID=>{
-                self.network_metrics = Some(data)
-            }
             FEES_ID => {
                 let fees: Fees =
                     bincode::deserialize(&data).expect("Failed to deserialize Fees sysvar.");
@@ -83,6 +82,9 @@ impl SysvarCache {
             }
             sysvar::last_restart_slot::ID => {
                 self.last_restart_slot = Some(data);
+            }
+            sysvar::slot_summary::ID =>{
+                self.slot_summary= Some(data);
             }
             RECENT_BLOCKHASHES_ID => {
                 let recent_blockhashes: RecentBlockhashes = bincode::deserialize(&data)
@@ -124,9 +126,11 @@ impl SysvarCache {
             &self.stake_history
         } else if LastRestartSlot::check_id(sysvar_id) {
             &self.last_restart_slot
-        } else if NetworkMetrics::check_id(sysvar_id) {
-            &self.network_metrics
-        }else {
+        }else if SlotSummary::check_id(sysvar_id) {
+            &self.slot_summary
+        }
+        
+        else {
             &None
         }
     }
@@ -150,13 +154,14 @@ impl SysvarCache {
         self.get_sysvar_obj(&Clock::id())
     }
 
-    pub fn get_network_metrics(&self) -> Result<Arc<NetworkMetrics>,InstructionError>{
-        self.get_sysvar_obj(&NetworkMetrics::id())
-    }
+    
     pub fn get_epoch_schedule(&self) -> Result<Arc<EpochSchedule>, InstructionError> {
         self.get_sysvar_obj(&EpochSchedule::id())
     }
 
+    pub fn get_slot_summary(&self) -> Result<Arc<SlotSummary>, InstructionError> {
+        self.get_sysvar_obj(&SlotSummary::id())
+    }
     pub fn get_epoch_rewards(&self) -> Result<Arc<EpochRewards>, InstructionError> {
         self.get_sysvar_obj(&EpochRewards::id())
     }
@@ -211,13 +216,14 @@ impl SysvarCache {
             });
         }
 
-        if self.network_metrics.is_none() {
-            get_account_data(&NetworkMetrics::id(), &mut |data: &[u8]| {
-                if bincode::deserialize::<NetworkMetrics>(data).is_ok() {
-                    self.network_metrics = Some(data.to_vec());
+        if self.slot_summary.is_none() {
+            get_account_data(&Clock::id(), &mut |data: &[u8]| {
+                if bincode::deserialize::<SlotSummary>(data).is_ok() {
+                    self.slot_summary = Some(data.to_vec());
                 }
             });
         }
+
 
         if self.epoch_schedule.is_none() {
             get_account_data(&EpochSchedule::id(), &mut |data: &[u8]| {
@@ -326,18 +332,6 @@ pub mod get_sysvar_with_account_check {
         invoke_context.get_sysvar_cache().get_clock()
     }
 
-    pub fn network_metrics(
-        invoke_context: &InvokeContext,
-        instruction_context: &InstructionContext,
-        instruction_account_index: IndexOfAccount,
-    ) -> Result<Arc<NetworkMetrics>, InstructionError> {
-        check_sysvar_account::<NetworkMetrics>(
-            invoke_context.transaction_context,
-            instruction_context,
-            instruction_account_index,
-        )?;
-        invoke_context.get_sysvar_cache().get_network_metrics()
-    }
 
     pub fn rent(
         invoke_context: &InvokeContext,
@@ -390,6 +384,19 @@ pub mod get_sysvar_with_account_check {
             instruction_account_index,
         )?;
         invoke_context.get_sysvar_cache().get_stake_history()
+    }
+
+    pub fn slot_summary(
+        invoke_context: &InvokeContext,
+        instruction_context: &InstructionContext,
+        instruction_account_index: IndexOfAccount,
+    ) -> Result<Arc<SlotSummary>, InstructionError> {
+        check_sysvar_account::<SlotSummary>(
+            invoke_context.transaction_context,
+            instruction_context,
+            instruction_account_index,
+        )?;
+        invoke_context.get_sysvar_cache().get_slot_summary()
     }
 
     pub fn last_restart_slot(

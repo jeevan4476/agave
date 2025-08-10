@@ -70,23 +70,23 @@ solana-frozen-abi-macro = { version = "=2.2.1", optional = true, features = [
     "frozen-abi",
 ] }
 solana-hash = "=2.3.0"
-solana-keypair = "=2.2.1"
+solana-keypair = "=2.2.3"
 solana-ledger = { workspace = true }
 solana-logger = "=2.3.1"
 solana-measure = { workspace = true }
 solana-metrics = { workspace = true }
-solana-native-token = "=2.2.2"
+solana-native-token = "=2.3.0"
 solana-net-utils = { workspace = true }
 solana-packet = "=2.2.1"
 solana-perf = { workspace = true }
 solana-pubkey = { version = "=2.4.0", features = ["rand"] }
-solana-quic-definitions = "=2.3.0"
+solana-quic-definitions = "=2.3.1"
 solana-rayon-threadlimit = { workspace = true }
 solana-rpc-client = { workspace = true }
 solana-runtime = { workspace = true }
 solana-sanitize = "=2.2.1"
 solana-serde-varint = "=2.2.2"
-solana-sha256-hasher = "=2.3.0"
+solana-sha256-hasher = "=2.2.1"
 solana-short-vec = "=2.2.1"
 solana-signature = { version = "=2.3.0", default-features = false }
 solana-signer = "=2.2.1"

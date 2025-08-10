@@ -480,7 +480,7 @@ solana-program-entrypoint = "2.3.0"
 solana-program-error = {version ="2.2.2" }
 solana-program-memory = "2.3.1"
 solana-program-option = "2.2.1"
-solana-program-pack = "2.2.1"
+solana-program-pack = "2.2.1" 
 solana-program-runtime = { path = "program-runtime", version = "=3.0.0" }
 solana-program-test = { path = "program-test", version = "=3.0.0" }
 solana-pubkey = { version = "2.4.0", default-features = false }
@@ -690,6 +690,7 @@ solana-bincode = { path = "/home/jvan/svm/solana-sdk/bincode" }
 solana-blake3-hasher = { path = "/home/jvan/svm/solana-sdk/blake3-hasher" }
 solana-bls-signatures = { path = "/home/jvan/svm/solana-sdk/bls-signatures" }
 solana-bn254 = { path = "/home/jvan/svm/solana-sdk/bn254" }
+solana-borsh = { path = "/home/jvan/svm/solana-sdk/borsh" }
 solana-client-traits = { path = "/home/jvan/svm/solana-sdk/client-traits" }
 solana-clock = { path = "/home/jvan/svm/solana-sdk/clock" }
 solana-cluster-type = { path = "/home/jvan/svm/solana-sdk/cluster-type" }
@@ -738,7 +739,7 @@ solana-precompile-error = { path = "/home/jvan/svm/solana-sdk/precompile-error" 
 solana-presigner = { path = "/home/jvan/svm/solana-sdk/presigner" }
 solana-program = { path = "/home/jvan/svm/solana-sdk/program" }
 solana-program-entrypoint = { path = "/home/jvan/svm/solana-sdk/program-entrypoint" }
-solana-program-error = { path = "/home/jvan/svm/solana-sdk/program-error" }
+solana-program-error = { path = "/home/jvan/svm/solana-sdk/program-error" , features = ["borsh"]}
 solana-program-memory = { path = "/home/jvan/svm/solana-sdk/program-memory" }
 solana-program-option = { path = "/home/jvan/svm/solana-sdk/program-option" }
 solana-program-pack = { path = "/home/jvan/svm/solana-sdk/program-pack" }
@@ -775,3 +776,4 @@ solana-transaction = { path = "/home/jvan/svm/solana-sdk/transaction" }
 solana-transaction-error = { path = "/home/jvan/svm/solana-sdk/transaction-error" }
 solana-validator-exit = { path = "/home/jvan/svm/solana-sdk/validator-exit" }
 solana-vote-interface = { path = "/home/jvan/svm/solana-sdk/vote-interface" }
+solana-slot-summary = { path = "/home/jvan/svm/solana-sdk/slot-summary" }
